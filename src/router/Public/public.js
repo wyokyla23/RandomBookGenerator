@@ -1,5 +1,16 @@
+import React from "react";
 import {
-  BrowserRouter as Router,
-  Switch,
   Route,
+  Redirect,
 } from "react-router-dom";
+
+export default function PublicRoute({
+  userIsLoggedIn,
+  ...rest
+}) {
+  if (userIsLoggedIn) {
+    return <Redirect to="/login" />;
+  } else {
+    return <Route {...rest} />;
+  }
+}

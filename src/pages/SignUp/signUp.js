@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Profile(props) {
+export default function SignUp(props) {
   const classes = useStyles();
 
   const initialValues = {
@@ -94,7 +94,7 @@ export default function Profile(props) {
                 type="submit"
                 variant="outlined"
               >
-                Log In
+                Sign Up
               </Button>
             </Grid>
           </Grid>
@@ -106,10 +106,11 @@ export default function Profile(props) {
             }
           >
             <Typography>
-              No account? Sign up&nbsp;
+              Already have an account? Log
+              in&nbsp;
               <Link
                 className={classes.signupButton}
-                to="/signup-page"
+                to="/login"
               >
                 here
               </Link>

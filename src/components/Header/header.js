@@ -62,7 +62,7 @@ export default function Header() {
             className={classes.links}
             color="inherit"
             component={Link}
-            to="profile"
+            to="/login"
           >
             Login
           </Button>
