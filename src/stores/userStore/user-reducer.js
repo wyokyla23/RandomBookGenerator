@@ -1,14 +1,19 @@
-import { createStore } from "redux";
-import { LOGIN, LOGOUT } from "./user-constants";
+import {
+  BEGIN_LOGIN,
+  LOGIN_SUCCESS,
+  LOGIN_FAILED,
+  LOGOUT,
+} from "./user-constants";
+
+const fakeUserData = {
+  name: " ",
+  password: " ",
+};
 
 const defaultState = {
   isLoggedIn: false,
   data: null,
-};
-
-const fakeUserData = {
-  name: "bob",
-  password: "12345",
+  loading: false,
 };
 
 export default function userReducer(
@@ -24,8 +29,9 @@ export default function userReducer(
     case LOGIN_SUCCESS:
       return {
         ...state,
+        isLoggedIn: true,
         loading: false,
-        data: fakeUserData,
+        data: action.payload,
       };
     case LOGIN_FAILED:
       return {

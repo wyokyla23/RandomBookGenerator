@@ -16,6 +16,7 @@ const user = {
 };
 
 function App() {
+  console.log("rendered");
   return (
     <ThemeProvider theme={theme}>
       <Header />

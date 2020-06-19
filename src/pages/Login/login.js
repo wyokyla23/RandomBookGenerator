@@ -10,6 +10,18 @@ import { useFormik } from "formik";
 import { TextField } from "@material-ui/core";
 import * as Yup from "yup";
 
+import {
+  useSelector,
+  useDispatch,
+} from "react-redux";
+import {
+  BeginLogin,
+  LoginSuccess,
+  LoginFailed,
+  Logout,
+  login,
+} from "../../stores/userStore/user-actions";
+
 const useStyles = makeStyles((theme) => ({
   root: {},
   loginGridContainer: {
@@ -34,6 +46,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login(props) {
+  const user = useSelector((state) => state);
+  const dispatch = useDispatch();
+
+  console.log({ user });
   const classes = useStyles();
 
   const initialValues = {
@@ -60,6 +76,11 @@ export default function Login(props) {
     validationSchema,
     // onSubmit,
   });
+
+  const testFunc = () => {
+    console.log("clicked");
+    login();
+  };
 
   return (
     <Container className={classes.paperContainer}>
@@ -91,6 +112,7 @@ export default function Login(props) {
             </Grid>
             <Grid item>
               <Button
+                onClick={testFunc}
                 type="submit"
                 variant="outlined"
               >

@@ -9,7 +9,7 @@ export default function PublicRoute({
   ...rest
 }) {
   if (userIsLoggedIn) {
-    return <Redirect to="/login" />;
+    return <Redirect to="/" />;
   } else {
     return <Route {...rest} />;
   }
