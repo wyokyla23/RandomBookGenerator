@@ -9,17 +9,15 @@ import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { TextField } from "@material-ui/core";
 import * as Yup from "yup";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 import {
   useSelector,
   useDispatch,
 } from "react-redux";
 import {
-  BeginLogin,
-  LoginSuccess,
-  LoginFailed,
-  Logout,
   login,
+  logout,
 } from "../../stores/userStore/user-actions";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,14 +44,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login(props) {
-  const user = useSelector((state) => state);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
-  console.log({ user });
+  console.log(user);
+
   const classes = useStyles();
 
   const initialValues = {
-    username: "",
+    email: "",
     password: "",
   };
 
@@ -68,19 +67,20 @@ export default function Login(props) {
       .required("Required"),
   });
 
+  const onSubmit = (values, formik) => {
+    dispatch(login(values));
+  };
+
   const {
     handleChange,
     handleSubmit,
+    touched,
+    errors,
   } = useFormik({
     initialValues,
     validationSchema,
-    // onSubmit,
+    onSubmit,
   });
-
-  const testFunc = () => {
-    console.log("clicked");
-    login();
-  };
 
   return (
     <Container className={classes.paperContainer}>
@@ -96,8 +96,13 @@ export default function Login(props) {
                 onChange={handleChange}
                 required
                 id="email"
-                name="email"
                 label="email"
+                error={Boolean(
+                  touched.email && errors.email
+                )}
+                helperText={
+                  touched.email && errors.email
+                }
               />
             </Grid>
             <Grid item>
@@ -105,20 +110,36 @@ export default function Login(props) {
                 onChange={handleChange}
                 required
                 id="password"
-                name="password"
                 label="password"
                 type="password"
+                error={Boolean(
+                  touched.password &&
+                    errors.password
+                )}
+                helperText={
+                  touched.password &&
+                  errors.password
+                }
               />
             </Grid>
             <Grid item>
               <Button
-                onClick={testFunc}
                 type="submit"
                 variant="outlined"
               >
                 Log In
               </Button>
+              <Button
+                type="submit"
+                variant="outlined"
+              >
+                Log Out
+              </Button>
             </Grid>
+            <br />
+            {user.loading ? (
+              <CircularProgress />
+            ) : null}
           </Grid>
           <Grid
             container

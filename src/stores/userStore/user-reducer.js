@@ -40,7 +40,11 @@ export default function userReducer(
         data: null,
       };
     case LOGOUT:
-      return { ...state, data: null };
+      return {
+        ...state,
+        isLoggedIn: false,
+        data: null,
+      };
     default:
       return state;
   }

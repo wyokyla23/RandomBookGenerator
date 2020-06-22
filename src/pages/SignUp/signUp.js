@@ -8,7 +8,14 @@ import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import { TextField } from "@material-ui/core";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import * as Yup from "yup";
+
+import {
+  useSelector,
+  useDispatch,
+} from "react-redux";
+import { login } from "../../stores/userStore/user-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -34,11 +41,16 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp(props) {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  console.log(user);
   const classes = useStyles();
 
   const initialValues = {
-    username: "",
+    email: "",
     password: "",
+    confirmPassword: "",
   };
 
   const validationSchema = Yup.object().shape({
@@ -50,15 +62,29 @@ export default function SignUp(props) {
       .min(6, "Too short!")
       .max(20, "Too long!")
       .required("Required"),
+    confirmPassword: Yup.string()
+      .min(6, "Too short!")
+      .max(20, "Too long!")
+      .required("Required")
+      .oneOf(
+        [Yup.ref("password"), null],
+        "Passwords must match"
+      ),
   });
+
+  const onSubmit = (values, formik) => {
+    dispatch(login(values));
+  };
 
   const {
     handleChange,
     handleSubmit,
+    touched,
+    errors,
   } = useFormik({
     initialValues,
     validationSchema,
-    // onSubmit,
+    onSubmit,
   });
 
   return (
@@ -75,8 +101,13 @@ export default function SignUp(props) {
                 onChange={handleChange}
                 required
                 id="email"
-                name="email"
                 label="email"
+                error={Boolean(
+                  touched.email && errors.email
+                )}
+                helperText={
+                  touched.email && errors.email
+                }
               />
             </Grid>
             <Grid item>
@@ -84,9 +115,33 @@ export default function SignUp(props) {
                 onChange={handleChange}
                 required
                 id="password"
-                name="password"
                 label="password"
                 type="password"
+                error={Boolean(
+                  touched.password &&
+                    errors.password
+                )}
+                helperText={
+                  touched.password &&
+                  errors.password
+                }
+              />
+            </Grid>
+            <Grid item>
+              <TextField
+                onChange={handleChange}
+                required
+                id="confirmPassword"
+                label="confirmPassword"
+                type="confirmPassword"
+                error={Boolean(
+                  touched.confirmPassword &&
+                    errors.confirmPassword
+                )}
+                helperText={
+                  touched.confirmPassword &&
+                  errors.confirmPassword
+                }
               />
             </Grid>
             <Grid item>
@@ -96,6 +151,9 @@ export default function SignUp(props) {
               >
                 Sign Up
               </Button>
+              {user.loading ? (
+                <CircularProgress />
+              ) : null}
             </Grid>
           </Grid>
           <Grid

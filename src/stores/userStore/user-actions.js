@@ -4,6 +4,7 @@ import {
   LOGIN_FAILED,
   LOGOUT,
 } from "./user-constants";
+import { sleep } from "../../utils/helper-functions";
 
 export function BeginLogin() {
   return {
@@ -30,14 +31,19 @@ export function Logout() {
   };
 }
 
-export const login = (params) => async (
+export const login = (values) => async (
   dispatch
 ) => {
-  dispatch(BeginLogin());
-  const userData = await firebaseonasdasdasdihas;
+  dispatch(BeginLogin(values));
+  await sleep(3000);
+  const userData = await { values };
   if (userData) {
     dispatch(LoginSuccess(userData));
   } else {
     dispatch(LoginFailed());
   }
+};
+
+export const logout = () => (dispatch) => {
+  dispatch(Logout());
 };

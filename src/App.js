@@ -9,14 +9,12 @@ import theme from "./theme";
 import { Switch, Route } from "react-router-dom";
 import PrivateRoute from "./router/Private";
 import PublicRoute from "./router/Public";
+import { useSelector } from "react-redux";
 
-const user = {
-  isLoggedIn: false,
-  data: null,
-};
-
-function App() {
+function App(props) {
   console.log("rendered");
+  // const user = useSelector((state) => state.user);
+
   return (
     <ThemeProvider theme={theme}>
       <Header />
