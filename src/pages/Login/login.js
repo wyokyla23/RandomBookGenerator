@@ -44,10 +44,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login(props) {
-  const user = useSelector((state) => state.user);
+  const loading = useSelector(
+    (state) => state.user.loading
+  );
   const dispatch = useDispatch();
-
-  console.log(user);
 
   const classes = useStyles();
 
@@ -69,6 +69,7 @@ export default function Login(props) {
 
   const onSubmit = (values, formik) => {
     dispatch(login(values));
+    console.log({ values });
   };
 
   const {
@@ -137,9 +138,7 @@ export default function Login(props) {
               </Button>
             </Grid>
             <br />
-            {user.loading ? (
-              <CircularProgress />
-            ) : null}
+            {loading && <CircularProgress />}
           </Grid>
           <Grid
             container

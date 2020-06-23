@@ -5,10 +5,10 @@ import {
 } from "react-router-dom";
 
 export default function PrivateRoute({
-  userIsLoggedIn,
+  isLoggedIn,
   ...rest
 }) {
-  if (userIsLoggedIn) {
+  if (isLoggedIn) {
     return <Route {...rest} />;
   } else {
     return <Redirect to="/login" />;

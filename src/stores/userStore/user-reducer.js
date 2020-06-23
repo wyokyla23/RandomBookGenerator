@@ -5,13 +5,7 @@ import {
   LOGOUT,
 } from "./user-constants";
 
-const fakeUserData = {
-  name: " ",
-  password: " ",
-};
-
 const defaultState = {
-  isLoggedIn: false,
   data: null,
   loading: false,
 };
@@ -27,9 +21,9 @@ export default function userReducer(
         loading: true,
       };
     case LOGIN_SUCCESS:
+      console.log({ action });
       return {
         ...state,
-        isLoggedIn: true,
         loading: false,
         data: action.payload,
       };
@@ -42,7 +36,6 @@ export default function userReducer(
     case LOGOUT:
       return {
         ...state,
-        isLoggedIn: false,
         data: null,
       };
     default:

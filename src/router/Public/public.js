@@ -5,10 +5,10 @@ import {
 } from "react-router-dom";
 
 export default function PublicRoute({
-  userIsLoggedIn,
+  isLoggedIn,
   ...rest
 }) {
-  if (userIsLoggedIn) {
+  if (isLoggedIn) {
     return <Redirect to="/" />;
   } else {
     return <Route {...rest} />;

@@ -34,12 +34,15 @@ export function Logout() {
 export const login = (values) => async (
   dispatch
 ) => {
-  dispatch(BeginLogin(values));
+  dispatch(BeginLogin());
   await sleep(3000);
   const userData = await { values };
+  console.log(userData);
   if (userData) {
+    console.log("success");
     dispatch(LoginSuccess(userData));
   } else {
+    console.log("failed");
     dispatch(LoginFailed());
   }
 };
