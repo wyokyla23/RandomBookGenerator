@@ -41,10 +41,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp(props) {
-  const user = useSelector((state) => state.user);
+  const loading = useSelector(
+    (state) => state.user.loading
+  );
   const dispatch = useDispatch();
 
-  console.log(user);
   const classes = useStyles();
 
   const initialValues = {
@@ -74,6 +75,7 @@ export default function SignUp(props) {
 
   const onSubmit = (values, formik) => {
     dispatch(login(values));
+    console.log({ values });
   };
 
   const {
@@ -151,9 +153,7 @@ export default function SignUp(props) {
               >
                 Sign Up
               </Button>
-              {user.loading ? (
-                <CircularProgress />
-              ) : null}
+              {loading && <CircularProgress />}
             </Grid>
           </Grid>
           <Grid

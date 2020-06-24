@@ -130,12 +130,6 @@ export default function Login(props) {
               >
                 Log In
               </Button>
-              <Button
-                type="submit"
-                variant="outlined"
-              >
-                Log Out
-              </Button>
             </Grid>
             <br />
             {loading && <CircularProgress />}

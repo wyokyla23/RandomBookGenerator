@@ -7,6 +7,11 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuBookTwoToneIcon from "@material-ui/icons/MenuBookTwoTone";
+import {
+  useSelector,
+  useDispatch,
+} from "react-redux";
+import { logout } from "../../stores/userStore/user-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,6 +36,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header() {
+  const dispatch = useDispatch();
+  const user = useSelector((state) =>
+    Boolean(state.user.data)
+  );
+
   const classes = useStyles();
 
   return (
@@ -58,14 +68,24 @@ export default function Header() {
           >
             Random Book Generator
           </Typography>
-          <Button
-            className={classes.links}
-            color="inherit"
-            component={Link}
-            to="/login"
-          >
-            Login
-          </Button>
+          {!user ? (
+            <Button
+              className={classes.links}
+              color="inherit"
+              component={Link}
+              to="/login"
+            >
+              Login
+            </Button>
+          ) : (
+            <Button
+              className={classes.links}
+              color="inherit"
+              onClick={() => dispatch(logout())}
+            >
+              Logout
+            </Button>
+          )}
           <Button
             className={classes.links}
             color="inherit"

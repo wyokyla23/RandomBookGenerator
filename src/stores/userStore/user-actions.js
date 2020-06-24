@@ -48,5 +48,6 @@ export const login = (values) => async (
 };
 
 export const logout = () => (dispatch) => {
+  console.log("logged out");
   dispatch(Logout());
 };
