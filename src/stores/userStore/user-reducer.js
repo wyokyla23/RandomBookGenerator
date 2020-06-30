@@ -6,8 +6,10 @@ import {
 } from "./user-constants";
 
 const defaultState = {
-  data: null,
+  // data: null,
+  data: true,
   loading: false,
+  error: null,
 };
 
 export default function userReducer(
@@ -32,6 +34,7 @@ export default function userReducer(
         ...state,
         loading: false,
         data: null,
+        error: action.payload,
       };
     case LOGOUT:
       return {

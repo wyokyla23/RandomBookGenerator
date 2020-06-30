@@ -15,11 +15,11 @@ import {
   useSelector,
   useDispatch,
 } from "react-redux";
-import { login } from "../../stores/userStore/user-actions";
+import { register } from "../../stores/userStore/user-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
-  loginGridContainer: {
+  signUpGridContainer: {
     justifyContent: "center",
     alignItems: "center",
     marginTop: "7em",
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
   },
-  signupButton: {
+  loginButton: {
     color: "blue",
   },
   paperContainer: {
@@ -74,8 +74,7 @@ export default function SignUp(props) {
   });
 
   const onSubmit = (values, formik) => {
-    dispatch(login(values));
-    console.log({ values });
+    dispatch(register(values));
   };
 
   const {
@@ -96,7 +95,9 @@ export default function SignUp(props) {
           <Grid
             container
             spacing={4}
-            className={classes.loginGridContainer}
+            className={
+              classes.signUpGridContainer
+            }
           >
             <Grid item>
               <TextField
@@ -167,7 +168,7 @@ export default function SignUp(props) {
               Already have an account? Log
               in&nbsp;
               <Link
-                className={classes.signupButton}
+                className={classes.loginButton}
                 to="/login"
               >
                 here

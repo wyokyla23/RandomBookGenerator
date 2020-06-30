@@ -15,10 +15,7 @@ import {
   useSelector,
   useDispatch,
 } from "react-redux";
-import {
-  login,
-  logout,
-} from "../../stores/userStore/user-actions";
+import { login } from "../../stores/userStore/user-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -31,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
       minHeight: "200px",
     },
   },
-  signupButtonContainer: {
+  loginButtonContainer: {
     justifyContent: "center",
     alignItems: "center",
   },
@@ -138,7 +135,7 @@ export default function Login(props) {
             container
             spacing={4}
             className={
-              classes.signupButtonContainer
+              classes.loginButtonContainer
             }
           >
             <Typography>

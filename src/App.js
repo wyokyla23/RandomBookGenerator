@@ -6,7 +6,6 @@ import Routes from "./router/Routes";
 
 function App() {
   console.log("rendered");
-
   return (
     <ThemeProvider theme={theme}>
       <Header />
