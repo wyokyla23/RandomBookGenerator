@@ -5,9 +5,13 @@ import {
   LOGOUT,
 } from "./user-constants";
 
+const testAccount = {
+  email: "firetest2@gmail.com",
+  id: "cZIC15M7XUfFl3hMRLpzIfeNgla2",
+};
+
 const defaultState = {
-  // data: null,
-  data: true,
+  data: testAccount,
   loading: false,
   error: null,
 };
@@ -23,7 +27,6 @@ export default function userReducer(
         loading: true,
       };
     case LOGIN_SUCCESS:
-      console.log({ action });
       return {
         ...state,
         loading: false,

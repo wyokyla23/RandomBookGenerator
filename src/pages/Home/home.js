@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
+import MenuBookTwoToneIcon from "@material-ui/icons/MenuBookTwoTone";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import Grid from "@material-ui/core/Grid";
+import firebase from "@firebase/app";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -32,75 +37,84 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home(props) {
   const classes = useStyles();
+  const userId = useSelector(
+    ({ user }) => user.data?.id
+  );
+  const [book, setBook] = useState(null);
+
+  const generateBook = () => {
+    setBook({
+      title: "Pete the Cat",
+      year: 2019,
+      description:
+        "ads afj jskdhkjhsdf jkhsdkjf hsdhf sdkjhf ksjdhfsjkd ",
+      author: "whatever",
+      price: "$34.55",
+    });
+  };
+
+  const storeBookInFirebase = async ({
+    book,
+  }) => {
+    try {
+      const db = firebase.firestore();
+      const bookRef = db
+        .collection("books")
+        .doc();
+      await bookRef.set(book);
+      const bookId = bookRef.id;
+      console.log({ bookId });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // const generateBook = () => {
+  //   fetch('https://www.googleapis.com/books/v1/volumes/pIs9Em38dAoC')
+  //   .then(res => res.json())
+  //   .then((result) => {
+  //     console.log(result)
+  //   })
+
+  console.log({ book });
 
   return (
     <Grid
-      style={{
-        backgroundColor: "green",
-        height: 500,
-        padding: 25,
-      }}
-      justify="space-around"
-      // alignItems="center"
       container
-      spacing={2}
+      justify="center"
+      alignItems="center"
+      direction="column"
     >
-      <Grid
-        style={{ backgroundColor: "salmon" }}
-        item
-        xs={12}
-        md={3}
-        lg={5}
-        xl={2}
-      />
-      <Grid
-        style={{ backgroundColor: "tomato" }}
-        item
-        xs={12}
-        md={8}
-        lg={6}
-        xl={9}
-      />
+      <h1>Generate Book</h1>
+      {book && (
+        <>
+          <h2 className="title">
+            title: {book.title}
+          </h2>
+          <h2 className="year">
+            year: {book.year}
+          </h2>
+          <h2 className="description">
+            description: {book.description}
+          </h2>
+          <h2 className="author">
+            author: {book.author}
+          </h2>
+          <h2 className="price">
+            Price: {book.price}
+          </h2>
+        </>
+      )}
+      <IconButton onClick={() => generateBook()}>
+        <MenuBookTwoToneIcon />
+      </IconButton>
+      <IconButton
+        onClick={() =>
+          storeBookInFirebase({ userId, book })
+        }
+      >
+        <FavoriteIcon />
+      </IconButton>
     </Grid>
-    // <div
-    //   className="container"
-    //   style={{
-    //     display: "flex",
-    //     justifyContent: "center",
-    //     alignItems: "center",
-    //     height: "50vh",
-    //     width: "60vw",
-    //     backgroundColor: "green",
-    //   }}
-    // >
-    //   <div
-    //     style={{
-    //       height: "75%",
-    //       width: "15%",
-    //       backgroundColor: "salmon",
-    //     }}
-    //     className="book-image"
-    //   />
-    //   <div
-    //     style={{
-    //       height: "80%",
-    //       width: "60%",
-    //       backgroundColor: "tomato",
-    //     }}
-    //     className="book-description"
-    //   />
-    // </div>
-    // <Container className={classes.paperContainer}>
-    //   <Paper elevation={24}>
-    //     <Grid
-    //       container
-    //       spacing={4}
-    //       className={classes.homeGridContainer}
-    //     >
-    //       <Grid item>poop</Grid>
-    //       <Grid item>poop</Grid>
-    //     </Grid>
-    //   </Paper>
-    // </Container>
   );
 }

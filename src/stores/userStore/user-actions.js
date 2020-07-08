@@ -4,8 +4,8 @@ import {
   LOGIN_FAILED,
   LOGOUT,
 } from "./user-constants";
-import { sleep } from "../../utils/helper-functions";
 import firebase from "@firebase/app";
+import { snapshotToDocument } from '../../utils/helper-functions';
 
 export function BeginLogin() {
   return {
@@ -49,12 +49,14 @@ export const register = ({
       );
     const userObject = result.user;
     const db = firebase.firestore();
-    db.collection("users")
+    const newUser = {
+      email,
+      favoriteBookIds: [],
+    };
+    await db.collection("users")
       .doc(userObject.uid)
-      .set({
-        email,
-      });
-    dispatch(LoginSuccess({ email, password }));
+      .set(newUser);
+    dispatch(LoginSuccess(newUser));
   } catch (error) {
     console.error(error);
     console.log(email, password);
@@ -76,10 +78,16 @@ export const login = ({
         email,
         password
       );
-    const userData = result.user;
-    if (userData) {
+    const userId = result?.user?.uid;
+    if (userId) {
+      const userSnapshot = await firebase
+        .firestore()
+        .collection('users')
+        .doc(userId)
+        .get()
+      const userData = snapshotToDocument(userSnapshot)
       console.log("success");
-      dispatch(LoginSuccess({ email, password }));
+      dispatch(LoginSuccess(userData));
     }
   } catch (error) {
     console.log(error);
@@ -87,10 +95,22 @@ export const login = ({
   }
 };
 
-//Get User Profile
-
 //Log out User
 export const logout = () => (dispatch) => {
   console.log("logged out");
   dispatch(Logout());
+};
+
+//Delete User
+export const deleteUser = () => (dispatch) => {
+  try {
+    const currentUser = firebase.auth()
+      .currentUser;
+    if (currentUser) {
+      currentUser.delete();
+      dispatch(Logout());
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };
