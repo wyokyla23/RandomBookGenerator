@@ -2,10 +2,18 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import MenuBookTwoToneIcon from "@material-ui/icons/MenuBookTwoTone";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import Grid from "@material-ui/core/Grid";
 import firebase from "@firebase/app";
-import { useSelector } from "react-redux";
+import {
+  useSelector,
+  useDispatch,
+} from "react-redux";
+import FavoritedIcon from "@material-ui/icons/FavoriteOutlined";
+import NotFavoritedIcon from "@material-ui/icons/FavoriteBorderOutlined";
+import {
+  BookRetrieved,
+  BeginBookRetrieval,
+} from "../../stores/booksStore/books-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -37,14 +45,22 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Home(props) {
   const classes = useStyles();
-  const userId = useSelector(
-    ({ user }) => user.data?.id
+  const dispatch = useDispatch();
+  const user = useSelector(
+    ({ user }) => user.data
   );
+  const userId = user?.id;
+
   const [book, setBook] = useState(null);
+  const isFavorited = user.favoriteBookIds.some(
+    (bookId) => bookId === book?.id
+  );
 
   const generateBook = () => {
+    dispatch(BeginBookRetrieval());
+    console.log();
     setBook({
-      title: "Pete the Cat",
+      title: "The Scorpio Races",
       year: 2019,
       description:
         "ads afj jskdhkjhsdf jkhsdkjf hsdhf sdkjhf ksjdhfsjkd ",
@@ -55,6 +71,7 @@ export default function Home(props) {
 
   const storeBookInFirebase = async ({
     book,
+    userId,
   }) => {
     try {
       const db = firebase.firestore();
@@ -63,7 +80,41 @@ export default function Home(props) {
         .doc();
       await bookRef.set(book);
       const bookId = bookRef.id;
+      setBook((prev) => ({
+        ...prev,
+        id: bookId,
+      }));
+      db.collection("users")
+        .doc(userId)
+        .update({
+          favoriteBookIds: firebase.firestore.FieldValue.arrayUnion(
+            bookId
+          ),
+        });
       console.log({ bookId });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const removeBookFromFirebase = async ({
+    userId,
+  }) => {
+    try {
+      const { id: bookId } = book;
+      console.log({ bookId });
+      const db = await firebase.firestore();
+      const bookRef = db
+        .collection("books")
+        .doc(bookId);
+      await bookRef.delete();
+      db.collection("users")
+        .doc(userId)
+        .update({
+          favoriteBookIds: firebase.firestore.FieldValue.arrayRemove(
+            bookId
+          ),
+        });
     } catch (error) {
       console.log(error);
     }
@@ -108,13 +159,23 @@ export default function Home(props) {
       <IconButton onClick={() => generateBook()}>
         <MenuBookTwoToneIcon />
       </IconButton>
-      <IconButton
-        onClick={() =>
-          storeBookInFirebase({ userId, book })
-        }
-      >
-        <FavoriteIcon />
-      </IconButton>
+      {isFavorited ? (
+        <IconButton
+          onClick={() =>
+            removeBookFromFirebase({ userId })
+          }
+        >
+          <FavoritedIcon />
+        </IconButton>
+      ) : (
+        <IconButton
+          onClick={() =>
+            storeBookInFirebase({ userId, book })
+          }
+        >
+          <NotFavoritedIcon />
+        </IconButton>
+      )}
     </Grid>
   );
 }

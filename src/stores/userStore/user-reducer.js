@@ -11,7 +11,7 @@ const testAccount = {
 };
 
 const defaultState = {
-  data: testAccount,
+  data: null,
   loading: false,
   error: null,
 };

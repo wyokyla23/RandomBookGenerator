@@ -5,7 +5,7 @@ import {
   LOGOUT,
 } from "./user-constants";
 import firebase from "@firebase/app";
-import { snapshotToDocument } from '../../utils/helper-functions';
+import { snapshotToDocument } from "../../utils/helper-functions";
 
 export function BeginLogin() {
   return {
@@ -53,7 +53,8 @@ export const register = ({
       email,
       favoriteBookIds: [],
     };
-    await db.collection("users")
+    await db
+      .collection("users")
       .doc(userObject.uid)
       .set(newUser);
     dispatch(LoginSuccess(newUser));
@@ -82,10 +83,12 @@ export const login = ({
     if (userId) {
       const userSnapshot = await firebase
         .firestore()
-        .collection('users')
+        .collection("users")
         .doc(userId)
-        .get()
-      const userData = snapshotToDocument(userSnapshot)
+        .get();
+      const userData = snapshotToDocument(
+        userSnapshot
+      );
       console.log("success");
       dispatch(LoginSuccess(userData));
     }
