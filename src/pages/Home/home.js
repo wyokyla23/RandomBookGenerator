@@ -11,9 +11,13 @@ import {
 import FavoritedIcon from "@material-ui/icons/FavoriteOutlined";
 import NotFavoritedIcon from "@material-ui/icons/FavoriteBorderOutlined";
 import {
-  BookRetrieved,
-  BeginBookRetrieval,
+  BookFavorited,
+  FavoritingBook,
+  BookFavoritingFailed,
+  UnfavoriteBook,
 } from "../../stores/booksStore/books-actions";
+import { storeBookInFirebase } from "../../stores/booksStore/books-actions";
+import { removeBookFromFirebase } from "../../stores/booksStore/books-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -50,17 +54,14 @@ export default function Home(props) {
     ({ user }) => user.data
   );
   const userId = user?.id;
-
   const [book, setBook] = useState(null);
   const isFavorited = user.favoriteBookIds.some(
     (bookId) => bookId === book?.id
   );
 
   const generateBook = () => {
-    dispatch(BeginBookRetrieval());
-    console.log();
     setBook({
-      title: "The Scorpio Races",
+      title: "Where the Red Fern Grows",
       year: 2019,
       description:
         "ads afj jskdhkjhsdf jkhsdkjf hsdhf sdkjhf ksjdhfsjkd ",
@@ -74,16 +75,18 @@ export default function Home(props) {
     userId,
   }) => {
     try {
+      dispatch(FavoritingBook());
       const db = firebase.firestore();
       const bookRef = db
         .collection("books")
         .doc();
       await bookRef.set(book);
       const bookId = bookRef.id;
-      setBook((prev) => ({
-        ...prev,
+      const bookWithId = {
+        ...book,
         id: bookId,
-      }));
+      };
+      setBook(bookWithId);
       db.collection("users")
         .doc(userId)
         .update({
@@ -91,14 +94,22 @@ export default function Home(props) {
             bookId
           ),
         });
+      dispatch(
+        BookFavorited({
+          userId,
+          book: bookWithId,
+        })
+      );
       console.log({ bookId });
     } catch (error) {
       console.log(error);
+      dispatch(BookFavoritingFailed(error));
     }
   };
 
   const removeBookFromFirebase = async ({
     userId,
+    book,
   }) => {
     try {
       const { id: bookId } = book;
@@ -115,6 +126,7 @@ export default function Home(props) {
             bookId
           ),
         });
+      dispatch(UnfavoriteBook(userId, book));
     } catch (error) {
       console.log(error);
     }
@@ -170,12 +182,22 @@ export default function Home(props) {
       ) : (
         <IconButton
           onClick={() =>
-            storeBookInFirebase({ userId, book })
+            storeBookInFirebase({
+              userId,
+              book,
+            })
           }
         >
           <NotFavoritedIcon />
         </IconButton>
       )}
+      <IconButton
+        onClick={() =>
+          removeBookFromFirebase({ userId, book })
+        }
+      >
+        <FavoritedIcon />
+      </IconButton>
     </Grid>
   );
 }

@@ -5,11 +5,11 @@ import {
 } from "redux";
 import user from "./userStore/user-reducer";
 import thunk from "redux-thunk";
-// import books from './booksStore/books-reducer';
+import books from "./booksStore/books-reducer";
 
 const rootReducer = combineReducers({
   user,
-  // books,
+  books,
 });
 
 const store = createStore(
