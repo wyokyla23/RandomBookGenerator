@@ -39,3 +39,45 @@ export function UnfavoriteBook({ book, userId }) {
   };
 }
 // state.user.data.id;
+export const storeBookInFirebase = ({
+  book,
+  userId,
+  setBook,
+}) => async (dispatch) => {
+  try {
+    dispatch(FavoritingBook());
+    const db = firebase.firestore();
+    const newBook = {
+      title: book.book.title,
+      author: book.book.author,
+      description: book.book.description,
+      published: book.bookDetails.published_date,
+      price: book.book.price,
+    };
+    const bookRef = db.collection("books").doc();
+    await bookRef.set(newBook);
+    const bookId = bookRef.id;
+    const bookWithId = {
+      ...book,
+      id: bookId,
+    };
+    setBook(bookWithId);
+    db.collection("users")
+      .doc(userId)
+      .update({
+        favoriteBookIds: firebase.firestore.FieldValue.arrayUnion(
+          bookId
+        ),
+      });
+    dispatch(
+      BookFavorited({
+        userId,
+        book: bookWithId,
+      })
+    );
+    console.log({ bookId });
+  } catch (error) {
+    console.log(error);
+    dispatch(BookFavoritingFailed(error));
+  }
+};
