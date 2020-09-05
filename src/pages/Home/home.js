@@ -99,13 +99,13 @@ export default function Home(props) {
       {book && (
         <>
           <h2 className="title">
-            title: {book.book.title}
+            {book.book.title}
           </h2>
           <h2 className="author">
-            author: {book.book.author}
+            by {book.book.author}
           </h2>
           <h2 className="description">
-            description: {book.book.description}
+            {book.book.description}
           </h2>
           <h2 className="published">
             published:

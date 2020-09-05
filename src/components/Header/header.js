@@ -23,15 +23,16 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    color: theme.palette.common.rose,
+    color: theme.palette.common.darkGrey,
     fontSize: "1.5rem",
     fontWeight: 400,
   },
   links: {
-    color: theme.palette.common.rose,
+    color: theme.palette.common.darkGrey,
   },
   appBar: {
-    backgroundColor: theme.palette.common.yellow,
+    backgroundColor:
+      theme.palette.common.lightBlue,
   },
 }));
 
@@ -40,8 +41,10 @@ export default function Header(props) {
   const user = useSelector(({ user }) =>
     Boolean(user.data)
   );
-  const userId = useSelector(({ user }) => user.data?.id) 
-  console.log({userId})
+  const userId = useSelector(
+    ({ user }) => user.data?.id
+  );
+  console.log({ userId });
   const classes = useStyles();
 
   return (
