@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import MenuBookTwoToneIcon from "@material-ui/icons/MenuBookTwoTone";
@@ -11,15 +10,9 @@ import {
 } from "react-redux";
 import FavoritedIcon from "@material-ui/icons/FavoriteOutlined";
 import NotFavoritedIcon from "@material-ui/icons/FavoriteBorderOutlined";
-import {
-  BookFavorited,
-  FavoritingBook,
-  BookFavoritingFailed,
-  UnfavoriteBook,
-} from "../../stores/booksStore/books-actions";
+import { UnfavoriteBook } from "../../stores/booksStore/books-actions";
 import { generateBook } from "./helpers";
 import { storeBookInFirebase } from "../../stores/booksStore/books-actions";
-import { removeBookFromFirebase } from "../../stores/booksStore/books-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {},

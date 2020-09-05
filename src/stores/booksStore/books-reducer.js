@@ -1,3 +1,4 @@
+import React from "react";
 import {
   FAVORITING_BOOK,
   BOOK_FAVORITED,
@@ -23,7 +24,7 @@ const defaultState = {
   error: null,
 };
 
-export default function booksReducer(
+export default React.memo(function booksReducer(
   state = defaultState,
   action
 ) {
@@ -74,4 +75,4 @@ export default function booksReducer(
     default:
       return state;
   }
-}
+});

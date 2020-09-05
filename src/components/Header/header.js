@@ -12,7 +12,6 @@ import {
   useDispatch,
 } from "react-redux";
 import { logout } from "../../stores/userStore/user-actions";
-import { addBook } from "../../stores/booksStore/books-actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
