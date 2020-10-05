@@ -1,5 +1,4 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
 
 ## Available Scripts
 
