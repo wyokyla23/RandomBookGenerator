@@ -1,3 +1,8 @@
+# Random Book Generator
+Sign up or log in as a Firestore user and have the option to generate random books to add to your list of reads! Optional link to purchase from Amazon.
+
+![RBGSignUP](https://user-images.githubusercontent.com/62663716/95530311-2a5d2a00-09a3-11eb-8983-d11359365ca1.png)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
