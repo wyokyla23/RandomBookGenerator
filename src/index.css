@@ -2,5 +2,14 @@ body {
   margin: 0px;
   background-image: url("./book-background3.jpg");
   background-repeat: no-repeat;
-  background-size: 100%;
+  background-position: center;
+  height: 100%;
+  background-size: cover%;
+}
+
+.book-info {
+  text-align: center;
+  background-color: #f0f2f5;
+  padding: 10px;
+  margin: 15px 25px;
 }

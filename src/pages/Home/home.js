@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import IconButton from "@material-ui/core/IconButton";
 import MenuBookTwoToneIcon from "@material-ui/icons/MenuBookTwoTone";
+import Paper from "@material-ui/core/Paper";
+import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import firebase from "@firebase/app";
 import {
@@ -89,33 +91,44 @@ export default function Home(props) {
       direction="column"
     >
       <h1>Generate Book</h1>
-      {book && (
-        <>
-          <h2 className="title">
-            {book.book.title}
-          </h2>
-          <h2 className="author">
-            by {book.book.author}
-          </h2>
-          <h2 className="description">
-            {book.book.description}
-          </h2>
-          <h2 className="published">
-            published:
-            {book.bookDetails.published_date}
-          </h2>
-          <h2 className="price">
-            price: {book.book.price}
-          </h2>
-        </>
-      )}
       <IconButton
         onClick={() => generateBook(setBook)}
       >
         <MenuBookTwoToneIcon />
       </IconButton>
+      {book && (
+        <Paper elevation={24}>
+          <div className="book-info">
+            <h2 className="title">
+              {book.book.title}
+            </h2>
+            <h2 className="author">
+              by {book.book.author}
+            </h2>
+            <h2 className="description">
+              {book.book.description}
+            </h2>
+            <h2 className="published">
+              published:
+              {book.bookDetails.published_date}
+            </h2>
+            <Link
+              target="_blank"
+              rel="noopener"
+              href={
+                book.bookDetails
+                  .amazon_product_url
+              }
+            >
+              Get this book
+            </Link>
+          </div>
+        </Paper>
+      )}
+
       {isFavorited ? (
         <IconButton
+          aria-label="unfavorite"
           onClick={() =>
             removeBookFromFirebase({ userId })
           }
@@ -124,6 +137,7 @@ export default function Home(props) {
         </IconButton>
       ) : (
         <IconButton
+          aria-label="favorite"
           onClick={() =>
             dispatch(
               storeBookInFirebase({

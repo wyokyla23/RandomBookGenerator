@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   },
   appBar: {
     backgroundColor:
-      theme.palette.common.lightBlue,
+      theme.palette.common.transparent,
   },
 }));
 
