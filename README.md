@@ -1,3 +1,15 @@
+# Random Book Generator
+Sign up or log in as a Firestore user and have the option to generate random books to add to your list of reads! Optional link to purchase from Amazon.
+* React
+* React Hooks
+* Material-UI
+* Redux
+* Firebase
+
+![RBGSignUP](https://user-images.githubusercontent.com/62663716/95530311-2a5d2a00-09a3-11eb-8983-d11359365ca1.png)
+
+![RBGBookGenerated](https://user-images.githubusercontent.com/62663716/95530669-0f3eea00-09a4-11eb-8574-c8eae5707b7b.png)
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -5,6 +17,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 In the project directory, you can run:
 
 ### `npm start`
+
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
