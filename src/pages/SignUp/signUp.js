@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
   signUpGridContainer: {
     justifyContent: "center",
     alignItems: "center",
+    flexDirection: "column",
     marginTop: "7em",
     minHeight: "300px",
     [theme.breakpoints.down("md")]: {
@@ -31,6 +32,7 @@ const useStyles = makeStyles((theme) => ({
   signupButtonContainer: {
     justifyContent: "center",
     alignItems: "center",
+    padding: " 25px",
   },
   loginButton: {
     color: "blue",

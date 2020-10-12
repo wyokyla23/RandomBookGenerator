@@ -92,7 +92,7 @@ export default function Home(props) {
     >
       <h1>Generate Book</h1>
       <IconButton
-        onClick={() => generateBook(setBook)}
+         onClick={() => generateBook(setBook)}
       >
         <MenuBookTwoToneIcon />
       </IconButton>
