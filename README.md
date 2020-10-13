@@ -6,7 +6,7 @@ Sign up or log in as a Firestore user and have the option to generate random boo
 * Redux
 * Firebase
 
-![RBGSignUP](https://user-images.githubusercontent.com/62663716/95530311-2a5d2a00-09a3-11eb-8983-d11359365ca1.png)
+![BookGeneratorSignIn](https://user-images.githubusercontent.com/62663716/95799756-46bad880-0cbb-11eb-8b28-dc207d9f174d.png)
 
 ![RBGBookGenerated](https://user-images.githubusercontent.com/62663716/95530669-0f3eea00-09a4-11eb-8574-c8eae5707b7b.png)
 
