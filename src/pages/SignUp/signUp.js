@@ -1,8 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
-import Paper from "@material-ui/core/Paper";
+import LockIcon from '@material-ui/icons/Lock';
 import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
@@ -20,26 +19,36 @@ import { register } from "../../stores/userStore/user-actions";
 const useStyles = makeStyles((theme) => ({
   root: {},
   signUpGridContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    flexDirection: "column",
-    marginTop: "7em",
-    minHeight: "300px",
-    [theme.breakpoints.down("md")]: {
-      minHeight: "200px",
-    },
-  },
-  signupButtonContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: " 25px",
+    alignItems: "flex-start",
+    fontSize: '2rem',
+    paddingTop: '3em',
+    margin: '0 auto',
+    maxWidth: 300
   },
   loginButton: {
     color: "blue",
+    textDecoration: 'none',
   },
-  paperContainer: {
-    maxWidth: "900px",
+  formWrapper: {
+    height: '500px',
+    width: '900px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    margin: '64px',
+    border: 'solid',
   },
+  title: {
+    margin: '0.3em'
+  },
+  lockIcon: {
+    backgroundColor: '#ffc9b9', 
+    width: '1.2em',
+    height: '1.2em',
+    borderRadius: '2em',
+    padding: '.3em'
+  }
 }));
 
 export default function SignUp(props) {
@@ -91,94 +100,104 @@ export default function SignUp(props) {
   });
 
   return (
-    <Container className={classes.paperContainer}>
-      <Paper elevation={24}>
-        <form onSubmit={handleSubmit}>
-          <Grid
-            container
-            spacing={4}
-            className={
-              classes.signUpGridContainer
+    <Grid
+      container 
+      className={classes.signUpGridContainer}
+      spacing={4}
+      justify='center'
+      component='form'
+      onSubmit={handleSubmit}
+      >
+        <Grid
+          container
+          direction='column'
+          alignItems='center'
+        >
+          <LockIcon className={classes.lockIcon} />
+          <h1 className={classes.title}>Sign up</h1>
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            onChange={handleChange}
+            tabIndex={1}
+            required
+            id="email"
+            label="email"
+            error={Boolean(
+              touched.email && errors.email
+            )}
+            helperText={
+              touched.email && errors.email
             }
-          >
-            <Grid item>
-              <TextField
-                onChange={handleChange}
-                required
-                id="email"
-                label="email"
-                error={Boolean(
-                  touched.email && errors.email
-                )}
-                helperText={
-                  touched.email && errors.email
-                }
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                onChange={handleChange}
-                required
-                id="password"
-                label="password"
-                type="password"
-                error={Boolean(
-                  touched.password &&
-                    errors.password
-                )}
-                helperText={
-                  touched.password &&
-                  errors.password
-                }
-              />
-            </Grid>
-            <Grid item>
-              <TextField
-                onChange={handleChange}
-                required
-                id="confirmPassword"
-                label="confirmPassword"
-                type="confirmPassword"
-                error={Boolean(
-                  touched.confirmPassword &&
-                    errors.confirmPassword
-                )}
-                helperText={
-                  touched.confirmPassword &&
-                  errors.confirmPassword
-                }
-              />
-            </Grid>
-            <Grid item>
-              <Button
-                type="submit"
-                variant="outlined"
-              >
-                Sign Up
-              </Button>
-              {loading && <CircularProgress />}
-            </Grid>
-          </Grid>
-          <Grid
-            container
-            spacing={4}
-            className={
-              classes.signupButtonContainer
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            onChange={handleChange}
+            required
+            tabIndex={2}
+            id="password"
+            label="password"
+            type="password"
+            error={Boolean(
+              touched.password &&
+                errors.password
+            )}
+            helperText={
+              touched.password &&
+              errors.password
             }
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <TextField
+            fullWidth
+            onChange={handleChange}
+            required
+            id="confirmPassword"
+            label="confirmPassword"
+            type="confirmPassword"
+            error={Boolean(
+              touched.confirmPassword &&
+                errors.confirmPassword
+            )}
+            helperText={
+              touched.confirmPassword &&
+              errors.confirmPassword
+            }
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            fullWidth
+            type="submit"
+            variant="outlined"
+            style={{backgroundColor: '#ffc9b9'}}
           >
-            <Typography>
-              Already have an account? Log
-              in&nbsp;
-              <Link
-                className={classes.loginButton}
-                to="/login"
-              >
-                here
-              </Link>
-            </Typography>
-          </Grid>
-        </form>
-      </Paper>
-    </Container>
+            Sign Up
+          </Button>
+        </Grid>
+        <br/>
+        {loading && <CircularProgress />}
+        <Grid
+          item
+          className={
+            classes.signupButtonContainer
+          }
+        >
+          <Typography>
+            Already have an account? <br/>Log
+            in&nbsp;
+            <Link
+              className={classes.loginButton}
+              to="/login"
+            >
+              here
+            </Link>
+          </Typography>
+      </Grid>
+    </Grid>
   );
 }

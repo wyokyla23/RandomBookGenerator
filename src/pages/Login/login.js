@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     margin: "0 auto",
     maxWidth: 300
   },
- 
   signupButton: {
     color: "blue",
     textDecoration: 'none'
@@ -50,7 +49,6 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '2em',
     padding: '.3em'
   }
-  
 }));
 
 export default function Login(props) {
