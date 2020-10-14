@@ -30,8 +30,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.common.darkGrey,
   },
   appBar: {
-    backgroundColor:
-      theme.palette.common.transparent,
+    backgroundColor: 'transparent'
   },
 }));
 
@@ -48,7 +47,7 @@ export default function Header(props) {
 
   return (
     <div className={classes.root}>
-      <AppBar
+      <header
         className={classes.appBar}
         position="static"
       >
@@ -81,14 +80,14 @@ export default function Header(props) {
               Login
             </Button>
           ) : (
-            <Button
-              className={classes.links}
-              color="inherit"
-              onClick={() => dispatch(logout())}
-            >
-              Logout
-            </Button>
-          )}
+              <Button
+                className={classes.links}
+                color="inherit"
+                onClick={() => dispatch(logout())}
+              >
+                Logout
+              </Button>
+            )}
           <Button
             className={classes.links}
             color="inherit"
@@ -98,7 +97,7 @@ export default function Header(props) {
             Home
           </Button>
         </Toolbar>
-      </AppBar>
+      </header>
     </div>
   );
 }
