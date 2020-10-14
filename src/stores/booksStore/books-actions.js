@@ -5,6 +5,7 @@ import {
   UNFAVORITE_BOOK,
 } from "./books-constants";
 import firebase from "@firebase/app";
+import { FavoritedBook } from "../userStore/user-actions";
 
 export function FavoritingBook() {
   return {
@@ -62,7 +63,7 @@ export const storeBookInFirebase = ({
       id: bookId,
     };
     setBook(bookWithId);
-    db.collection("users")
+    await db.collection("users")
       .doc(userId)
       .update({
         favoriteBookIds: firebase.firestore.FieldValue.arrayUnion(
@@ -75,6 +76,9 @@ export const storeBookInFirebase = ({
         book: bookWithId,
       })
     );
+    dispatch(
+      FavoritedBook(bookId)
+    )
     console.log({ bookId });
   } catch (error) {
     console.log(error);

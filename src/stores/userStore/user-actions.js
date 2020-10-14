@@ -3,6 +3,7 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   LOGOUT,
+  FAVORITED_BOOK,
 } from "./user-constants";
 import firebase from "@firebase/app";
 import { snapshotToDocument } from "../../utils/helper-functions";
@@ -30,6 +31,15 @@ export function LoginFailed(error) {
 export function Logout() {
   return {
     type: LOGOUT,
+  };
+}
+
+export function FavoritedBook(bookId) {
+  return {
+    type: FAVORITED_BOOK,
+    payload: {
+      bookId
+    }
   };
 }
 

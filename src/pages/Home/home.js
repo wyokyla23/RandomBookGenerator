@@ -17,43 +17,80 @@ import { generateBook } from "./helpers";
 import { storeBookInFirebase } from "../../stores/booksStore/books-actions";
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+  root: {
+    '&:hover': {
+      backgroundColor: 'transparent'
+    },
+  },
   homeGridContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: "6em",
-    minHeight: "700px",
-    [theme.breakpoints.down("md")]: {
-      minHeight: "600px",
-    },
-    [theme.breakpoints.down("sm")]: {
-      minHeight: "500px",
-    },
+    // border: 'solid',
+    alignItems: "flex-start",
+    fontSize: '2rem',
+    paddingTop: '.5em',
+    margin: '0 auto',
+    maxWidth: 750,
   },
-
-  paperContainer: {
-    maxWidth: "600px",
-    [theme.breakpoints.down("md")]: {
-      maxWidth: "500px",
-    },
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: "400px",
-    },
+  bookIcon: {
+    width: '2em',
+    height: '2em',
+    borderRadius: '2em',
+    padding: '.3em',
+    backgroundColor: '#3DCCCC',
   },
+  generateBook: {
+    borderBottom: 'solid black',
+    BorderStyle: 'thin',
+    marginBottom: '2em',
+    justifyContent: 'center'
+  },
+  description: {
+    fontWeight: 'normal',
+    marginBlockEnd: '1.5em',
+  },
+  published: {
+    fontWeight: 'normal'
+  },
+  title: {
+    marginBlockStart: '0em',
+    marginBlockEnd: '0em',
+  },
+  author: {
+    marginBlockStart: '.5em',
+    marginBlockEnd: '1.5em'
+  },
+  favoriteIcon: {
+    width: '1.2em',
+    height: '1.2em',
+    borderRadius: '2em',
+    padding: '.3em',
+    backgroundColor: '#8B0000'
+  },
+  unfavoritedIcon: {
+    width: '1.2em',
+    height: '1.2em',
+    borderRadius: '2em',
+    padding: '.3em',
+    color: '#8B0000'
+  }
 }));
 
 export default function Home(props) {
+  const [book, setBook] = useState(null);
   const classes = useStyles();
   const dispatch = useDispatch();
-  const user = useSelector(
-    ({ user }) => user.data
-  );
-  const userId = user?.id;
-  const [book, setBook] = useState(null);
-  const isFavorited = user.favoriteBookIds.some(
-    (bookId) => bookId === book?.id
+  const userId = useSelector(
+    ({ user }) => user?.data?.id
+  )
+  const isFavorited = useSelector(
+    ({ books, user }) => {
+      if (books?.data && book) {
+        const userId = user.data.id
+        const userBooks = books.data[userId];
+        return Boolean(userBooks?.[book.id])
+      } else {
+        return false
+      }
+    }
   );
 
   const removeBookFromFirebase = async ({
@@ -81,40 +118,46 @@ export default function Home(props) {
     }
   };
 
-  console.log({ book });
-
   return (
     <Grid
       container
+      className={classes.homeGridContainer}
+      // spacing={4}
       justify="center"
-      alignItems="center"
-      direction="column"
     >
-      <h1>Generate Book</h1>
-      <IconButton
-         onClick={() => generateBook(setBook)}
+      <Grid
+        container
+        className={classes.generateBook}
       >
-        <MenuBookTwoToneIcon />
-      </IconButton>
-      {book && (
-        <Paper elevation={24}>
+        <h1>Generate Book</h1>
+        <IconButton
+          className={classes.root}
+          style={{ color: 'black' }}
+          onClick={() => generateBook(setBook)}
+        >
+          <MenuBookTwoToneIcon className={classes.bookIcon} />
+        </IconButton>
+      </Grid>
+      <Paper elevation={24}>
+        {book && (
           <div className="book-info">
-            <h2 className="title">
+            <h2 className={classes.title}>
               {book.book.title}
             </h2>
-            <h2 className="author">
+            <h3 className={classes.author}>
               by {book.book.author}
-            </h2>
-            <h2 className="description">
+            </h3>
+            <h3 className={classes.description}>
               {book.book.description}
-            </h2>
-            <h2 className="published">
-              published:
+            </h3>
+            <h4 className={classes.published}>
+              Published:
               {book.bookDetails.published_date}
-            </h2>
+            </h4>
             <Link
               target="_blank"
               rel="noopener"
+              style={{ textDecoration: 'none' }}
               href={
                 book.bookDetails
                   .amazon_product_url
@@ -123,41 +166,44 @@ export default function Home(props) {
               Get this book
             </Link>
           </div>
-        </Paper>
+        )}
+      </Paper>
+      {book && (
+        isFavorited ? (
+          <IconButton
+            aria-label="unfavorite"
+            onClick={() =>
+              removeBookFromFirebase({ userId, book })
+            }
+          >
+            <FavoritedIcon className={classes.favoriteIcon} />
+          </IconButton>
+        ) : (
+            <IconButton
+              aria-label="favorite"
+              onClick={() =>
+                dispatch(
+                  storeBookInFirebase({
+                    userId,
+                    book,
+                    setBook,
+                  })
+                )
+              }
+            >
+              <NotFavoritedIcon
+                className={classes.unfavoritedIcon}
+              />
+            </IconButton>
+          )
       )}
-
-      {isFavorited ? (
-        <IconButton
-          aria-label="unfavorite"
-          onClick={() =>
-            removeBookFromFirebase({ userId })
-          }
-        >
-          <FavoritedIcon />
-        </IconButton>
-      ) : (
-        <IconButton
-          aria-label="favorite"
-          onClick={() =>
-            dispatch(
-              storeBookInFirebase({
-                userId,
-                book,
-                setBook,
-              })
-            )
-          }
-        >
-          <NotFavoritedIcon />
-        </IconButton>
-      )}
-      <IconButton
+      {/* <IconButton
         onClick={() =>
           removeBookFromFirebase({ userId, book })
         }
       >
         <FavoritedIcon />
-      </IconButton>
+      </IconButton> */}
     </Grid>
   );
 }

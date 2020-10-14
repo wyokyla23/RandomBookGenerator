@@ -5,6 +5,7 @@ import {
   BOOK_FAVORITING_FAILED,
   UNFAVORITE_BOOK,
 } from "./books-constants";
+import { set, omit, merge } from 'lodash'
 
 // data: {
 //   [userId]: {
@@ -17,14 +18,13 @@ import {
 //   }
 // },
 
-import omit from "lodash/omit";
 const defaultState = {
   loading: false,
   data: {},
   error: null,
 };
 
-export default React.memo(function booksReducer(
+export default function booksReducer(
   state = defaultState,
   action
 ) {
@@ -36,26 +36,16 @@ export default React.memo(function booksReducer(
         ...state,
         loading: true,
       };
-    case BOOK_FAVORITED:
+    case BOOK_FAVORITED: {
       console.log({ action });
-      const userBooks =
-        state.data[action.payload.userId] || {};
+      const { book, userId } = action.payload;
+      const updatedState = set(state, `data.${userId}.${book.id}`, book)
+
       return {
-        ...state,
+        ...updatedState,
         loading: false,
-        data: {
-          ...state.data,
-          [action.payload.userId]: {
-            ...userBooks,
-            [action.payload.book.id]: {
-              ...userBooks[
-                action.payload.book.id
-              ],
-              ...action.payload.book,
-            },
-          },
-        },
-      };
+      }
+    }
     case BOOK_FAVORITING_FAILED:
       return {
         ...state,
@@ -75,4 +65,4 @@ export default React.memo(function booksReducer(
     default:
       return state;
   }
-});
+};

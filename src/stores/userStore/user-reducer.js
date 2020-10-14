@@ -3,7 +3,11 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FAILED,
   LOGOUT,
+  FAVORITED_BOOK
 } from "./user-constants";
+import set from 'lodash/set'
+
+import get from 'lodash/get'
 
 const testAccount = {
   email: "firetest2@gmail.com",
@@ -44,6 +48,15 @@ export default function userReducer(
         ...state,
         data: null,
       };
+    case FAVORITED_BOOK:
+      return set(
+        state,
+        `data.favoriteBookIds`,
+        [
+          ...state.data.favoriteBookIds,
+          action.payload.bookId
+        ]
+      )
     default:
       return state;
   }
