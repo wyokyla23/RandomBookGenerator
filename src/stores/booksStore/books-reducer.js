@@ -4,7 +4,7 @@ import {
   BOOK_FAVORITING_FAILED,
   UNFAVORITE_BOOK,
 } from "./books-constants";
-import { set, omit, merge } from 'lodash/fp'
+import { set, omit } from 'lodash/fp'
 
 // data: {
 //   [userId]: {
@@ -53,7 +53,6 @@ export default function booksReducer(
         error: action.payload,
       };
     case UNFAVORITE_BOOK:
-      console.log({ action });
       return {
         ...state.data,
         [action.payload.userId]: omit([action.payload.bookId])(state.data[action.payload.userId]),
