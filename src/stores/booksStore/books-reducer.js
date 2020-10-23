@@ -1,11 +1,10 @@
-import React from "react";
 import {
   FAVORITING_BOOK,
   BOOK_FAVORITED,
   BOOK_FAVORITING_FAILED,
   UNFAVORITE_BOOK,
 } from "./books-constants";
-import { set, omit, merge } from 'lodash'
+import { set, omit, merge } from 'lodash/fp'
 
 // data: {
 //   [userId]: {
@@ -39,7 +38,7 @@ export default function booksReducer(
     case BOOK_FAVORITED: {
       console.log({ action });
       const { book, userId } = action.payload;
-      const updatedState = set(state, `data.${userId}.${book.id}`, book)
+      const updatedState = set(`data.${userId}.${book.id}`, book)(state)
 
       return {
         ...updatedState,
@@ -57,10 +56,7 @@ export default function booksReducer(
       console.log({ action });
       return {
         ...state.data,
-        [action.payload.userId]: omit(
-          state.data[action.payload.userId],
-          [action.payload.bookId]
-        ),
+        [action.payload.userId]: omit([action.payload.bookId])(state.data[action.payload.userId]),
       };
     default:
       return state;

@@ -29,9 +29,9 @@ const useStyles = makeStyles((theme) => ({
   links: {
     color: theme.palette.common.darkGrey,
   },
-  appBar: {
-    backgroundColor: 'transparent'
-  },
+  // appBar: {
+  //   backgroundColor: 'transparent'
+  // },
 }));
 
 export default function Header(props) {

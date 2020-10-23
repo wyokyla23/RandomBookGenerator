@@ -9,10 +9,10 @@ import set from 'lodash/set'
 
 import get from 'lodash/get'
 
-const testAccount = {
-  email: "firetest2@gmail.com",
-  id: "cZIC15M7XUfFl3hMRLpzIfeNgla2",
-};
+// const testAccount = {
+//   email: "firetest2@gmail.com",
+//   id: "cZIC15M7XUfFl3hMRLpzIfeNgla2",
+// };
 
 const defaultState = {
   data: null,

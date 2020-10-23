@@ -57,17 +57,22 @@ export const register = ({
         email,
         password
       );
-    const userObject = result.user;
-    const db = firebase.firestore();
-    const newUser = {
-      email,
-      favoriteBookIds: [],
-    };
-    await db
-      .collection("users")
-      .doc(userObject.uid)
-      .set(newUser);
-    dispatch(LoginSuccess(newUser));
+    const userObject = result?.user;
+    if (userObject?.uid) {
+      const db = firebase.firestore();
+      const newUser = {
+        email,
+        favoriteBookIds: [],
+        id: userObject?.uid
+      };
+      await db
+        .collection("users")
+        .doc(userObject.uid)
+        .set(newUser);
+      dispatch(LoginSuccess(newUser));
+    } else {
+      throw new Error('User failed to create')
+    }
   } catch (error) {
     console.error(error);
     console.log(email, password);
@@ -99,7 +104,7 @@ export const login = ({
       const userData = snapshotToDocument(
         userSnapshot
       );
-      console.log("success");
+      console.log("login successful");
       dispatch(LoginSuccess(userData));
     }
   } catch (error) {

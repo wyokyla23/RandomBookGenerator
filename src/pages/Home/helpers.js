@@ -9,9 +9,9 @@ export const generateBook = (setBook) => {
       const bookList = response.data.results;
       const randomBookFinder =
         bookList[
-          Math.floor(
-            Math.random() * bookList.length
-          )
+        Math.floor(
+          Math.random() * bookList.length
+        )
         ];
       const [
         bookSuggested,

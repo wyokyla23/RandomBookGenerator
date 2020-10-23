@@ -63,7 +63,7 @@ const useStyles = makeStyles((theme) => ({
     height: '1.2em',
     borderRadius: '2em',
     padding: '.3em',
-    backgroundColor: '#8B0000'
+    color: '#8B0000'
   },
   unfavoritedIcon: {
     width: '1.2em',
@@ -92,7 +92,7 @@ export default function Home(props) {
       }
     }
   );
-
+  console.log({ book })
   const removeBookFromFirebase = async ({
     userId,
     book,
