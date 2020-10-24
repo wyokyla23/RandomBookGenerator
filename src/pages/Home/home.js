@@ -5,6 +5,7 @@ import MenuBookTwoToneIcon from "@material-ui/icons/MenuBookTwoTone";
 import Paper from "@material-ui/core/Paper";
 import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
+import Typography from '@material-ui/core/Typography'
 import firebase from "@firebase/app";
 import {
   useSelector,
@@ -36,12 +37,18 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: '2em',
     padding: '.3em',
     backgroundColor: '#3DCCCC',
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '1rem'
+    }
   },
   generateBook: {
     borderBottom: 'solid black',
     BorderStyle: 'thin',
     marginBottom: '2em',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    [theme.breakpoints.down('sm')]: {
+      marginBottom: '.5em'
+    }
   },
   description: {
     fontWeight: 'normal',
@@ -129,10 +136,10 @@ export default function Home(props) {
         container
         className={classes.generateBook}
       >
-        <h1>Generate Book</h1>
+        <Typography variant='h3'>Generate Book</Typography>
         <IconButton
           className={classes.root}
-          style={{ color: 'black' }}
+          style={{ color: 'black', paddingTop: 0 }}
           onClick={() => generateBook(setBook)}
         >
           <MenuBookTwoToneIcon className={classes.bookIcon} />
@@ -141,19 +148,19 @@ export default function Home(props) {
       <Paper elevation={24}>
         {book && (
           <div className="book-info">
-            <h2 className={classes.title}>
+            <Typography variant='h2' className={classes.title}>
               {book.book.title}
-            </h2>
-            <h3 className={classes.author}>
+            </Typography>
+            <Typography variant='h4' className={classes.author}>
               by {book.book.author}
-            </h3>
-            <h3 className={classes.description}>
+            </Typography>
+            <Typography variant='h4' className={classes.description}>
               {book.book.description}
-            </h3>
-            <h4 className={classes.published}>
+            </Typography>
+            <Typography variant='h5' className={classes.published}>
               Published:
               {book.bookDetails.published_date}
-            </h4>
+            </Typography>
             <Link
               target="_blank"
               rel="noopener"

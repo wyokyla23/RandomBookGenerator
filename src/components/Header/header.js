@@ -21,12 +21,13 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    color: theme.palette.common.darkGrey,
-    fontSize: "1.5rem",
-    fontWeight: 400,
+    color: '#21201e',
+    [theme.breakpoints.down('xs')]: {
+      fontSize: '1rem'
+    }
   },
   links: {
-    color: theme.palette.common.darkGrey,
+    color: "#21202e",
   },
   // appBar: {
   //   backgroundColor: 'transparent'
@@ -69,24 +70,13 @@ export default function Header(props) {
           >
             Random Book Generator
           </Typography>
-          {!user ? (
-            <Button
-              className={classes.links}
-              color="inherit"
-              component={Link}
-              to="/login"
-            >
-              Login
-            </Button>
-          ) : (
-              <Button
-                className={classes.links}
-                color="inherit"
-                onClick={() => dispatch(logout())}
-              >
-                Logout
+          <Button
+            className={classes.links}
+            color="inherit"
+            onClick={() => dispatch(logout())}
+          >
+            Logout
               </Button>
-            )}
           <Button
             className={classes.links}
             color="inherit"
