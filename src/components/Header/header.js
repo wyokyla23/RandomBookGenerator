@@ -36,9 +36,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Header(props) {
   const dispatch = useDispatch();
-  const user = useSelector(({ user }) =>
-    Boolean(user.data)
-  );
   const userId = useSelector(
     ({ user }) => user.data?.id
   );
