@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '0.3em'
   },
   lockIcon: {
-    backgroundColor: '#ffc9b9', 
+    backgroundColor: '#ffc9b9',
     width: '1.2em',
     height: '1.2em',
     borderRadius: '2em',
@@ -68,15 +68,15 @@ export default function SignUp(props) {
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .min(2, "Too short!")
-      .max(20, "Too long!")
+      .max(35, "Too long!")
       .required("Required"),
     password: Yup.string()
       .min(6, "Too short!")
-      .max(20, "Too long!")
+      .max(30, "Too long!")
       .required("Required"),
     confirmPassword: Yup.string()
       .min(6, "Too short!")
-      .max(20, "Too long!")
+      .max(30, "Too long!")
       .required("Required")
       .oneOf(
         [Yup.ref("password"), null],
@@ -101,102 +101,102 @@ export default function SignUp(props) {
 
   return (
     <Grid
-      container 
+      container
       className={classes.signUpGridContainer}
       spacing={4}
       justify='center'
       component='form'
       onSubmit={handleSubmit}
+    >
+      <Grid
+        container
+        direction='column'
+        alignItems='center'
       >
-        <Grid
-          container
-          direction='column'
-          alignItems='center'
-        >
-          <LockIcon className={classes.lockIcon} />
-          <h1 className={classes.title}>Sign up</h1>
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            onChange={handleChange}
-            tabIndex={1}
-            required
-            id="email"
-            label="email"
-            error={Boolean(
-              touched.email && errors.email
-            )}
-            helperText={
-              touched.email && errors.email
-            }
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            onChange={handleChange}
-            required
-            tabIndex={2}
-            id="password"
-            label="password"
-            type="password"
-            error={Boolean(
-              touched.password &&
-                errors.password
-            )}
-            helperText={
-              touched.password &&
-              errors.password
-            }
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            onChange={handleChange}
-            required
-            id="confirmPassword"
-            label="confirmPassword"
-            type="confirmPassword"
-            error={Boolean(
-              touched.confirmPassword &&
-                errors.confirmPassword
-            )}
-            helperText={
-              touched.confirmPassword &&
-              errors.confirmPassword
-            }
-          />
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            fullWidth
-            type="submit"
-            variant="outlined"
-            style={{backgroundColor: '#ffc9b9'}}
-          >
-            Sign Up
-          </Button>
-        </Grid>
-        <br/>
-        {loading && <CircularProgress />}
-        <Grid
-          item
-          className={
-            classes.signupButtonContainer
+        <LockIcon className={classes.lockIcon} />
+        <h1 className={classes.title}>Sign up</h1>
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          fullWidth
+          onChange={handleChange}
+          tabIndex={1}
+          required
+          id="email"
+          label="email"
+          error={Boolean(
+            touched.email && errors.email
+          )}
+          helperText={
+            touched.email && errors.email
           }
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          fullWidth
+          onChange={handleChange}
+          required
+          tabIndex={2}
+          id="password"
+          label="password"
+          type="password"
+          error={Boolean(
+            touched.password &&
+            errors.password
+          )}
+          helperText={
+            touched.password &&
+            errors.password
+          }
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <TextField
+          fullWidth
+          onChange={handleChange}
+          required
+          id="confirmPassword"
+          label="confirmPassword"
+          type="password"
+          error={Boolean(
+            touched.confirmPassword &&
+            errors.confirmPassword
+          )}
+          helperText={
+            touched.confirmPassword &&
+            errors.confirmPassword
+          }
+        />
+      </Grid>
+      <Grid item xs={12}>
+        <Button
+          fullWidth
+          type="submit"
+          variant="outlined"
+          style={{ backgroundColor: '#ffc9b9' }}
         >
-          <Typography>
-            Already have an account? <br/>Log
+          Sign Up
+          </Button>
+      </Grid>
+      <br />
+      {loading && <CircularProgress />}
+      <Grid
+        item
+        className={
+          classes.signupButtonContainer
+        }
+      >
+        <Typography>
+          Already have an account? <br />Log
             in&nbsp;
             <Link
-              className={classes.loginButton}
-              to="/login"
-            >
-              here
+            className={classes.loginButton}
+            to="/login"
+          >
+            here
             </Link>
-          </Typography>
+        </Typography>
       </Grid>
     </Grid>
   );

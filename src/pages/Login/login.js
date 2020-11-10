@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     margin: '0.3em'
   },
   lockIcon: {
-    backgroundColor: '#3DCCCC', 
+    backgroundColor: '#3DCCCC',
     width: '1.2em',
     height: '1.2em',
     borderRadius: '2em',
@@ -67,11 +67,11 @@ export default function Login(props) {
   const validationSchema = Yup.object().shape({
     email: Yup.string()
       .min(2, "Too short!")
-      .max(20, "Too long!")
+      .max(35, "Too long!")
       .required("Required"),
     password: Yup.string()
       .min(6, "Too short!")
-      .max(20, "Too long!")
+      .max(30, "Too long!")
       .required("Required"),
   });
 
@@ -135,7 +135,7 @@ export default function Login(props) {
           type="password"
           error={Boolean(
             touched.password &&
-              errors.password
+            errors.password
           )}
           helperText={
             touched.password &&
@@ -148,7 +148,7 @@ export default function Login(props) {
           fullWidth
           type="submit"
           variant="outlined"
-          style={{backgroundColor: '#3DCCCC'}}
+          style={{ backgroundColor: '#3DCCCC' }}
         >
           Log In
         </Button>

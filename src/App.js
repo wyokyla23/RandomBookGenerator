@@ -11,7 +11,6 @@ function App() {
   console.log("rendered");
   return (
     <ThemeProvider theme={theme}>
-
       <Routes />
     </ThemeProvider>
   );
