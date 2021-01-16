@@ -114,7 +114,7 @@ export const login = ({
 };
 
 //Log out User
-export const logout = () => (dispatch) => {
+export const logout = () => async (dispatch) => {
   console.log("logged out");
   dispatch(Logout());
 };
